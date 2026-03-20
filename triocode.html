@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrioCode – We Build the Web</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --black:#0a0a0a;
+    --white:#f5f4f0;
+    --accent:#00e5a0;
+    --accent2:#ff5c2b;
+    --gray:#1a1a1a;
+    --muted:#888;
+    --card:#141414;
+  }
+  html{scroll-behavior:smooth;}
+  body{background:var(--black);color:var(--white);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:18px 40px;
+    display:flex;align-items:center;justify-content:space-between;
+    background:rgba(10,10,10,0.85);backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;}
+  .logo span{color:var(--accent);}
+  .nav-links{display:flex;gap:32px;list-style:none;}
+  .nav-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;}
+  .nav-links a:hover{color:var(--white);}
+  .nav-cta{
+    background:var(--accent);color:var(--black);
+    padding:10px 22px;border-radius:8px;
+    font-size:14px;font-weight:700;text-decoration:none;
+    transition:opacity .2s;
+  }
+  .nav-cta:hover{opacity:0.85;}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:120px 40px 80px;
+    position:relative;overflow:hidden;
+  }
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);
+    color:var(--accent);padding:6px 16px;border-radius:100px;
+    font-size:13px;font-weight:600;margin-bottom:32px;letter-spacing:0.5px;
+  }
+  .hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 1.5s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .hero h1{
+    font-family:'Syne',sans-serif;
+    font-size:clamp(48px,8vw,88px);
+    font-weight:800;line-height:1.0;
+    letter-spacing:-2px;
+    margin-bottom:28px;
+  }
+  .hero h1 em{color:var(--accent);font-style:normal;}
+  .hero p{
+    font-size:18px;color:rgba(255,255,255,0.55);
+    max-width:520px;line-height:1.7;margin-bottom:44px;
+  }
+  .hero-btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+  .btn-primary{
+    background:var(--accent);color:var(--black);
+    padding:16px 36px;border-radius:10px;
+    font-size:15px;font-weight:700;text-decoration:none;
+    transition:transform .2s,opacity .2s;
+  }
+  .btn-primary:hover{transform:translateY(-2px);opacity:0.9;}
+  .btn-outline{
+    border:1px solid rgba(255,255,255,0.2);color:var(--white);
+    padding:16px 36px;border-radius:10px;
+    font-size:15px;font-weight:600;text-decoration:none;
+    transition:border-color .2s,background .2s;
+  }
+  .btn-outline:hover{border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.05);}
+  .hero-grid{
+    position:absolute;inset:0;
+    background-image:linear-gradient(rgba(0,229,160,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.04) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black 40%,transparent 100%);
+  }
+  .hero-stats{
+    display:flex;gap:48px;margin-top:72px;flex-wrap:wrap;justify-content:center;
+  }
+  .stat{text-align:center;}
+  .stat-num{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--accent);}
+  .stat-label{font-size:13px;color:var(--muted);margin-top:4px;}
+
+  /* SECTION COMMON */
+  section{padding:100px 40px;}
+  .section-label{
+    font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+    color:var(--accent);margin-bottom:16px;
+  }
+  .section-title{
+    font-family:'Syne',sans-serif;font-size:clamp(32px,5vw,52px);
+    font-weight:800;line-height:1.1;letter-spacing:-1px;
+    margin-bottom:20px;
+  }
+  .section-sub{font-size:16px;color:rgba(255,255,255,0.5);max-width:480px;line-height:1.7;}
+  .container{max-width:1100px;margin:0 auto;}
+
+  /* SERVICES */
+  #services{background:var(--gray);}
+  .services-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;margin-top:56px;
+  }
+  .service-card{
+    background:var(--card);border:1px solid rgba(255,255,255,0.07);
+    border-radius:16px;padding:32px;
+    transition:border-color .3s,transform .3s;cursor:pointer;
+    position:relative;overflow:hidden;
+  }
+  .service-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:var(--accent);transform:scaleX(0);transition:transform .3s;
+    transform-origin:left;
+  }
+  .service-card:hover{border-color:rgba(0,229,160,0.3);transform:translateY(-4px);}
+  .service-card:hover::before{transform:scaleX(1);}
+  .service-icon{
+    width:48px;height:48px;border-radius:12px;
+    background:rgba(0,229,160,0.1);
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;margin-bottom:20px;
+  }
+  .service-card h3{font-size:18px;font-weight:700;margin-bottom:10px;}
+  .service-card p{font-size:14px;color:var(--muted);line-height:1.7;}
+  .service-price{margin-top:20px;font-size:13px;font-weight:700;color:var(--accent);}
+
+  /* PACKAGES */
+  .packages-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;margin-top:56px;
+  }
+  .pkg-card{
+    background:var(--card);border:1px solid rgba(255,255,255,0.07);
+    border-radius:16px;padding:32px;position:relative;
+    transition:border-color .3s;
+  }
+  .pkg-card.featured{
+    border-color:var(--accent);
+    background:linear-gradient(135deg,rgba(0,229,160,0.05),var(--card));
+  }
+  .featured-badge{
+    position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+    background:var(--accent);color:var(--black);
+    font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+    padding:4px 14px;border-radius:100px;white-space:nowrap;
+  }
+  .pkg-name{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+  .pkg-price{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;letter-spacing:-1px;}
+  .pkg-price span{font-size:16px;font-weight:500;color:var(--muted);}
+  .pkg-desc{font-size:14px;color:var(--muted);margin:12px 0 24px;line-height:1.6;}
+  .pkg-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+  .pkg-features li{font-size:14px;display:flex;align-items:center;gap:10px;}
+  .pkg-features li::before{content:'✓';color:var(--accent);font-weight:700;font-size:12px;flex-shrink:0;}
+  .pkg-btn{
+    display:block;text-align:center;
+    background:transparent;border:1px solid rgba(255,255,255,0.2);
+    color:var(--white);padding:13px;border-radius:10px;
+    font-size:14px;font-weight:700;text-decoration:none;
+    transition:background .2s,border-color .2s;cursor:pointer;
+  }
+  .pkg-card.featured .pkg-btn{background:var(--accent);color:var(--black);border-color:var(--accent);}
+  .pkg-btn:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.4);}
+  .pkg-card.featured .pkg-btn:hover{opacity:0.85;background:var(--accent);}
+
+  /* TEAM */
+  #team{background:var(--gray);}
+  .team-grid{display:flex;gap:24px;margin-top:56px;flex-wrap:wrap;justify-content:center;}
+  .team-card{
+    background:var(--card);border:1px solid rgba(255,255,255,0.07);
+    border-radius:16px;padding:32px 28px;text-align:center;
+    flex:1;min-width:220px;max-width:280px;
+    transition:transform .3s,border-color .3s;
+  }
+  .team-card:hover{transform:translateY(-4px);border-color:rgba(0,229,160,0.25);}
+  .avatar{
+    width:72px;height:72px;border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),#00b37a);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Syne',sans-serif;font-size:22px;font-weight:800;
+    color:var(--black);margin:0 auto 20px;
+  }
+  .avatar.orange{background:linear-gradient(135deg,var(--accent2),#ff8c5a);}
+  .avatar.purple{background:linear-gradient(135deg,#a78bfa,#7c3aed);}
+  .team-name{font-size:17px;font-weight:700;margin-bottom:4px;}
+  .team-role{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+  .team-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+
+  /* CONTACT */
+  .contact-box{
+    max-width:640px;margin:56px auto 0;
+    background:var(--card);border:1px solid rgba(255,255,255,0.07);
+    border-radius:20px;padding:48px;
+  }
+  .contact-box h3{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:8px;}
+  .contact-box p{font-size:15px;color:var(--muted);margin-bottom:32px;line-height:1.6;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+  .form-group label{font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);}
+  .form-group input,.form-group textarea,.form-group select{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:10px;padding:14px 16px;
+    color:var(--white);font-family:'Space Grotesk',sans-serif;font-size:14px;
+    outline:none;transition:border-color .2s;resize:none;
+  }
+  .form-group input:focus,.form-group textarea:focus{border-color:var(--accent);}
+  .form-group select option{background:var(--gray);}
+  .submit-btn{
+    width:100%;background:var(--accent);color:var(--black);
+    border:none;border-radius:10px;padding:16px;
+    font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;
+    cursor:pointer;transition:opacity .2s,transform .2s;
+  }
+  .submit-btn:hover{opacity:0.9;transform:translateY(-1px);}
+
+  /* FOOTER */
+  footer{
+    background:var(--gray);border-top:1px solid rgba(255,255,255,0.06);
+    padding:48px 40px;text-align:center;
+  }
+  .footer-logo{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:12px;}
+  .footer-logo span{color:var(--accent);}
+  .footer-tagline{font-size:14px;color:var(--muted);margin-bottom:24px;}
+  .footer-links{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+  .footer-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;}
+  .footer-links a:hover{color:var(--white);}
+  .footer-bottom{font-size:12px;color:rgba(255,255,255,0.25);}
+
+  @media(max-width:640px){
+    nav{padding:16px 20px;}
+    .nav-links{display:none;}
+    section{padding:72px 24px;}
+    .contact-box{padding:28px 20px;}
+    .form-row{grid-template-columns:1fr;}
+    .hero-stats{gap:28px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Trio<span>Code</span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get a Quote</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-badge">Available for new projects</div>
+  <h1>We build websites<br>that <em>actually</em> work.</h1>
+  <p>TrioCode is a three-person web agency delivering fast, clean, and modern websites — with hosting and maintenance included.</p>
+  <div class="hero-btns">
+    <a href="#packages" class="btn-primary">View Packages</a>
+    <a href="#contact" class="btn-outline">Talk to Us</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Experts</div></div>
+    <div class="stat"><div class="stat-num">Fast</div><div class="stat-label">Delivery</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Support</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Satisfaction</div></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">Everything your<br>business needs online.</h2>
+    <p class="section-sub">From a simple landing page to a full eCommerce store — we handle design, code, and everything after launch.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🎨</div>
+        <h3>Website Design & Development</h3>
+        <p>Custom websites built from scratch. Fast, mobile-ready, and designed to convert visitors into customers.</p>
+        <div class="service-price">Starting ₹5,000</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🛒</div>
+        <h3>eCommerce Stores</h3>
+        <p>Full online stores with product listings, payments, and order management. Ready to sell from day one.</p>
+        <div class="service-price">Starting ₹40,000</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">☁️</div>
+        <h3>Hosting & Domain</h3>
+        <p>We handle your hosting setup, domain registration, and keep everything secure and running 24/7.</p>
+        <div class="service-price">From ₹500/month</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔧</div>
+        <h3>Website Maintenance</h3>
+        <p>Regular updates, backups, speed optimization, and bug fixes — so you never have to worry about it.</p>
+        <div class="service-price">From ₹1,500/month</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <h3>SEO & Performance</h3>
+        <p>We optimize your site to rank on Google and load blazing fast on any device and connection.</p>
+        <div class="service-price">Starting ₹8,000</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">💬</div>
+        <h3>Revamps & Redesigns</h3>
+        <p>Got an old, slow, or ugly website? We'll redesign it from the ground up while keeping your content intact.</p>
+        <div class="service-price">Starting ₹12,000</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="container">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Simple, transparent<br>pricing.</h2>
+    <p class="section-sub">No hidden fees. No confusing tiers. Pick what you need and we'll get to work.</p>
+    <div class="packages-grid">
+      <div class="pkg-card">
+        <div class="pkg-name">Starter</div>
+        <div class="pkg-price">₹5,000 <span>one-time</span></div>
+        <div class="pkg-desc">Perfect for freelancers, small shops, or anyone who needs a clean online presence fast.</div>
+        <ul class="pkg-features">
+          <li>Single landing page</li>
+          <li>Mobile responsive</li>
+          <li>Contact form</li>
+          <li>Basic SEO setup</li>
+          <li>7-day delivery</li>
+        </ul>
+        <a href="#contact" class="pkg-btn">Get Started</a>
+      </div>
+      <div class="pkg-card featured">
+        <div class="featured-badge">Most Popular</div>
+        <div class="pkg-name">Business</div>
+        <div class="pkg-price">₹20,000 <span>one-time</span></div>
+        <div class="pkg-desc">Full website for your business — multiple pages, great design, and everything set up properly.</div>
+        <ul class="pkg-features">
+          <li>Up to 6 pages</li>
+          <li>Custom design</li>
+          <li>Hosting included (1yr)</li>
+          <li>Google Analytics</li>
+          <li>WhatsApp integration</li>
+          <li>14-day delivery</li>
+        </ul>
+        <a href="#contact" class="pkg-btn">Get Started</a>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-name">eCommerce</div>
+        <div class="pkg-price">₹50,000 <span>one-time</span></div>
+        <div class="pkg-desc">Full online store with Razorpay/UPI payments, product management, and order tracking.</div>
+        <ul class="pkg-features">
+          <li>Unlimited products</li>
+          <li>Payment gateway setup</li>
+          <li>Order management</li>
+          <li>Inventory tracking</li>
+          <li>Hosting included (1yr)</li>
+          <li>21-day delivery</li>
+        </ul>
+        <a href="#contact" class="pkg-btn">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <div class="section-label">The Team</div>
+    <h2 class="section-title">Three guys,<br>one mission.</h2>
+    <p class="section-sub">We're a tight-knit trio who love building things on the web. Small enough to care, skilled enough to deliver.</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="avatar">T1</div>
+        <div class="team-name">Co-Founder</div>
+        <div class="team-role">Builder</div>
+        <div class="team-desc">Designs and develops every website. Obsessed with clean code and beautiful UIs.</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar orange">T2</div>
+        <div class="team-name">Co-Founder</div>
+        <div class="team-role">Sales & Strategy</div>
+        <div class="team-desc">Talks to clients, closes deals, and makes sure every project stays on track and on time.</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar purple">T3</div>
+        <div class="team-name">Co-Founder</div>
+        <div class="team-role">Operations</div>
+        <div class="team-desc">Handles hosting, maintenance, payments, and keeps the business running smoothly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Let's Talk</div>
+    <h2 class="section-title">Ready to build<br>your website?</h2>
+    <p class="section-sub">Fill in the form and we'll get back to you within 24 hours with a free quote.</p>
+    <div class="contact-box">
+      <h3>Get a Free Quote</h3>
+      <p>Tell us about your project and we'll reach out with a price and timeline right away.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Rahul Sharma">
+        </div>
+        <div class="form-group">
+          <label>Phone / WhatsApp</label>
+          <input type="tel" placeholder="+91 98765 43210">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label>What do you need?</label>
+        <select>
+          <option value="">Select a service...</option>
+          <option>Landing Page (Starter)</option>
+          <option>Business Website</option>
+          <option>eCommerce Store</option>
+          <option>Website Maintenance</option>
+          <option>Hosting & Domain</option>
+          <option>Website Redesign</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tell us more (optional)</label>
+        <textarea rows="4" placeholder="Describe your business, what you want on the website, any deadline..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="handleSubmit()">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Trio<span>Code</span></div>
+  <div class="footer-tagline">Three minds. Infinite possibilities.</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#packages">Packages</a>
+    <a href="#team">Team</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-bottom">© 2024 TrioCode. All rights reserved.</div>
+</footer>
+
+<script>
+  function handleSubmit(){
+    const btn = document.querySelector('.submit-btn');
+    btn.textContent = "✓ Message Sent! We'll be in touch soon.";
+    btn.style.background = '#00b37a';
+    btn.disabled = true;
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if(t) t.scrollIntoView({behavior:'smooth'});
+    });
+  });
+</script>
+</body>
+</html>
